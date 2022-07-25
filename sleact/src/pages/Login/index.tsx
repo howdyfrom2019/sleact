@@ -2,11 +2,19 @@ import React, {useCallback, useState} from 'react';
 import {Button, Form, Header, Input, Label,Error, LinkContainer} from "./styles";
 import { Link } from "react-router-dom";
 import useInput from "../../hooks/useInput";
+import axios from "axios";
 
 const LogIn = () => {
   const [logInError, setLogInError] = useState(false);
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
+  const onSubmit = useCallback<(e: React.MouseEvent<HTMLButtonElement>) => void>((e) => {
+    e.preventDefault();
+    setLogInError(false);
+    axios.post("http://localhost:3095/api/users/login", {email, password})
+      .then(() => {})
+      .catch((e) => setLogInError(e.response?.data?.statusCode === 401));
+  }, [email, password]);
 
   return (
     <div id="container">
@@ -25,7 +33,7 @@ const LogIn = () => {
           </div>
           {logInError && <Error>이메일과 비밀번호 조합이 일치하지 않습니다.</Error>}
         </Label>
-        <Button type="submit">로그인</Button>
+        <Button type="submit" onClick={onSubmit}>로그인</Button>
       </Form>
       <LinkContainer>
         아직 회원이 아니신가요?&nbsp;
