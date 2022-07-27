@@ -3,15 +3,18 @@ import {Button, Form, Header, Input, Label,Error, LinkContainer} from "./styles"
 import { Link } from "react-router-dom";
 import useInput from "../../hooks/useInput";
 import axios from "axios";
+import useSWR from "swr";
+import fetcher from "../../utils/fetcher";
 
 const LogIn = () => {
+  const {data, error} = useSWR('http://localhost:3095/api/users', fetcher);
   const [logInError, setLogInError] = useState(false);
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
   const onSubmit = useCallback<(e: React.MouseEvent<HTMLButtonElement>) => void>((e) => {
     e.preventDefault();
     setLogInError(false);
-    axios.post("http://localhost:3095/api/users/login", {email, password})
+    axios.post("http://localhost:3095/api/users/login", {email, password}, {withCredentials: true})
       .then(() => {})
       .catch((e) => setLogInError(e.response?.data?.statusCode === 401));
   }, [email, password]);
