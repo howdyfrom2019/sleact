@@ -8,7 +8,7 @@ import useSWR from 'swr';
 
 const SignUp = () => {
   let navigate = useNavigate();
-  const { data: userData } = useSWR('/api/users', fetcher);
+  const { data: userData } = useSWR('http://localhost:3095/api/users', fetcher);
   const [signUpError, setSignUpError] = useState('');
   const [signUpSuccess, setSignUpSuccess] = useState(false);
   const [mismatchError, setMismatchError] = useState(false);
@@ -56,7 +56,7 @@ const SignUp = () => {
   );
 
   if (userData) {
-    navigate("/workspace/sleact", {replace: true});
+    navigate("/workspace/channel", {replace: true});
     return <></>;
   }
 

@@ -48,11 +48,11 @@ export class ChannelsService {
 
   async getWorkspaceChannel(url: string, name: string) {
     return this.channelsRepository
-      .createQueryBuilder('channel')
-      .innerJoin('channel.Workspace', 'workspace', 'workspace.url = :url', {
+      .createQueryBuilder('Channel')
+      .innerJoin('Channel.Workspace', 'workspace', 'workspace.url = :url', {
         url,
       })
-      .where('channel.name = :name', { name })
+      .where('Channel.name = :name', { name })
       .getOne();
   }
 
@@ -84,11 +84,11 @@ export class ChannelsService {
 
   async createWorkspaceChannelMembers(url, name, email) {
     const channel = await this.channelsRepository
-      .createQueryBuilder('channel')
-      .innerJoin('channel.Workspace', 'workspace', 'workspace.url = :url', {
+      .createQueryBuilder('Channel')
+      .innerJoin('Channel.Workspace', 'workspace', 'workspace.url = :url', {
         url,
       })
-      .where('channel.name = :name', { name })
+      .where('Channel.name = :name', { name })
       .getOne();
     if (!channel) {
       return null; // TODO: 이 때 어떻게 에러 발생?
@@ -117,10 +117,10 @@ export class ChannelsService {
   ) {
     return this.channelChatsRepository
       .createQueryBuilder('channelChats')
-      .innerJoin('channelChats.Channel', 'channel', 'channel.name = :name', {
+      .innerJoin('channelChats.Channel', 'Channel', 'Channel.name = :name', {
         name,
       })
-      .innerJoin('channel.Workspace', 'workspace', 'workspace.url = :url', {
+      .innerJoin('Channel.Workspace', 'workspace', 'workspace.url = :url', {
         url,
       })
       .innerJoinAndSelect('channelChats.User', 'user')
@@ -137,11 +137,11 @@ export class ChannelsService {
     myId: number,
   ) {
     const channel = await this.channelsRepository
-      .createQueryBuilder('channel')
-      .innerJoin('channel.Workspace', 'workspace', 'workspace.url = :url', {
+      .createQueryBuilder('Channel')
+      .innerJoin('Channel.Workspace', 'workspace', 'workspace.url = :url', {
         url,
       })
-      .where('channel.name = :name', { name })
+      .where('Channel.name = :name', { name })
       .getOne();
     const chats = new ChannelChats();
     chats.content = content;
@@ -166,11 +166,11 @@ export class ChannelsService {
   ) {
     console.log(files);
     const channel = await this.channelsRepository
-      .createQueryBuilder('channel')
-      .innerJoin('channel.Workspace', 'workspace', 'workspace.url = :url', {
+      .createQueryBuilder('Channel')
+      .innerJoin('Channel.Workspace', 'workspace', 'workspace.url = :url', {
         url,
       })
-      .where('channel.name = :name', { name })
+      .where('Channel.name = :name', { name })
       .getOne();
     for (let i = 0; i < files.length; i++) {
       const chats = new ChannelChats();
@@ -191,11 +191,11 @@ export class ChannelsService {
 
   async getChannelUnreadsCount(url, name, after) {
     const channel = await this.channelsRepository
-      .createQueryBuilder('channel')
-      .innerJoin('channel.Workspace', 'workspace', 'workspace.url = :url', {
+      .createQueryBuilder('Channel')
+      .innerJoin('Channel.Workspace', 'workspace', 'workspace.url = :url', {
         url,
       })
-      .where('channel.name = :name', { name })
+      .where('Channel.name = :name', { name })
       .getOne();
     return this.channelChatsRepository.count({
       where: {

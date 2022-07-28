@@ -154,7 +154,7 @@ router.post(
 );
 
 router.get(
-  "/workspaces/:workspace/channels/:channel",
+  "/workspaces/:workspace/channels/:Channel",
   isLoggedIn,
   async (req, res, next) => {
     try {
@@ -183,7 +183,7 @@ router.get(
 );
 
 router.get(
-  "/workspaces/:workspace/channels/:channel/chats",
+  "/workspaces/:workspace/channels/:Channel/chats",
   isLoggedIn,
   async (req, res, next) => {
     try {
@@ -226,7 +226,7 @@ router.get(
   }
 );
 router.get(
-  "/workspaces/:workspace/channels/:channel/unreads",
+  "/workspaces/:workspace/channels/:Channel/unreads",
   isLoggedIn,
   async (req, res, next) => {
     try {
@@ -263,7 +263,7 @@ router.get(
 );
 
 router.post(
-  "/workspaces/:workspace/channels/:channel/chats",
+  "/workspaces/:workspace/channels/:Channel/chats",
   isLoggedIn,
   async (req, res, next) => {
     try {
@@ -330,7 +330,7 @@ const upload = multer({
   limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
 });
 router.post(
-  "/workspaces/:workspace/channels/:channel/images",
+  "/workspaces/:workspace/channels/:Channel/images",
   isLoggedIn,
   upload.array("image"),
   async (req, res, next) => {
@@ -634,7 +634,7 @@ router.delete(
 );
 
 router.get(
-  "/workspaces/:workspace/channels/:channel/members",
+  "/workspaces/:workspace/channels/:Channel/members",
   isLoggedIn,
   async (req, res, next) => {
     try {
@@ -668,7 +668,7 @@ router.get(
 );
 
 router.post(
-  "/workspaces/:workspace/channels/:channel/members",
+  "/workspaces/:workspace/channels/:Channel/members",
   isLoggedIn,
   async (req, res, next) => {
     try {
@@ -718,7 +718,7 @@ router.post(
 );
 
 router.delete(
-  "/workspaces/:workspace/channels/:channel/members/:id",
+  "/workspaces/:workspace/channels/:Channel/members/:id",
   isLoggedIn,
   async (req, res, next) => {
     try {
