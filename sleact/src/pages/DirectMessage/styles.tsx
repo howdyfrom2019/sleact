@@ -14,21 +14,11 @@ export const Header = styled.header`
   width: 100%;
   --saf-0: rgba(var(--sk_foreground_low, 29, 28, 29), 0.13);
   box-shadow: 0 1px 0 var(--saf-0);
-  padding: 0 16px;
+  padding: 20px 16px 20px 20px;
   font-weight: bold;
   align-items: center;
-`;
 
-export const DragOver = styled.div`
-  position: absolute;
-  top: 64px;
-  left: 0;
-  width: 100%;
-  height: calc(100% - 64px);
-  background: white;
-  opacity: 0.7;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 40px;
+  & img {
+    margin-right: 5px;
+  }
 `;

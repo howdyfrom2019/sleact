@@ -1,12 +1,12 @@
 import React from 'react';
-import Workspace from "../../layouts/Workspace";
+import { Container, Header, DragOver } from "./styles";
 
 const Channel = () => {
-    return (
-        <Workspace>
-            <span>로그인하신 것을 축하드려요!</span>
-        </Workspace>
-    );
+  return (
+    <Container>
+      <Header># 채널</Header>
+    </Container>
+  );
 }
 
 export default Channel;
