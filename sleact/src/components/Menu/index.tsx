@@ -3,7 +3,7 @@ import React, { CSSProperties, FC, PropsWithChildren, useCallback} from 'react';
 
 interface Props {
   show: boolean;
-  onCloseModal: () => void;
+  onCloseModal: (e: React.MouseEvent<HTMLElement>) => void;
   style?: CSSProperties;
   closeButton?: boolean;
 }
