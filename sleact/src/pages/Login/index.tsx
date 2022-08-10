@@ -5,10 +5,11 @@ import useInput from "../../hooks/useInput";
 import axios from "axios";
 import useSWR from "swr";
 import fetcher from "../../utils/fetcher";
+import {IUser} from "../../typings/db";
 
 const LogIn = () => {
   let navigate = useNavigate();
-  const { data, error, mutate } = useSWR('http://localhost:3095/api/users', fetcher, {
+  const { data, error, mutate } = useSWR<IUser>('http://localhost:3095/api/users', fetcher, {
     dedupingInterval: 1000000,
   });
   const [logInError, setLogInError] = useState(false);
