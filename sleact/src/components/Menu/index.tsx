@@ -11,7 +11,9 @@ interface Props {
 const Menu: FC<PropsWithChildren<Props>> = ({ children, style, show, onCloseModal, closeButton }) => {
   const stopPropagation = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
-  }, [])
+  }, []);
+
+  if (!show) return <></>;
   return (
     <CreateMenu onClick={onCloseModal}>
       <div style={style} onClick={stopPropagation}>

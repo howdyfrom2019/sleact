@@ -27,6 +27,7 @@ import Menu from "../../components/Menu";
 import {IUser} from "../../typings/db";
 import useInput from "../../hooks/useInput";
 import Modal from "../../components/Modal";
+import CreateChannelModal from "../../components/CreateChannelModal";
 import {toast} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -38,6 +39,8 @@ const Workspace = () => {
   const [newWorkspace, onChangeNewWorkspace, setNewWorkspace] = useInput('');
   const [newUrl, onChangeNewUrl, setNewUrl] = useInput('');
   const [showCreateWorkspaceModal, setShowCreateWorkspaceModal] = useState(false);
+  const [showWorkspaceModal, setShowWorkspaceModal] = useState(false);
+  const [showCreateChannelModal, setShowCreateChannelModal] = useState(false);
 
   const {data: userData, error, mutate} = useSWR<IUser>('http://localhost:3095/api/users', fetcher);
   const onLogout = useCallback(() => {
@@ -82,7 +85,16 @@ const Workspace = () => {
 
   const onCloseModal = useCallback(() => {
     setShowCreateWorkspaceModal(false);
+    setShowCreateChannelModal(false);
   }, []);
+
+  const toggleWorkspaceModal = useCallback(() => {
+    setShowWorkspaceModal((prev) => !prev);
+  }, []);
+
+  const onClickAddChannel = useCallback(() => {
+    setShowCreateChannelModal((prev) => !prev);
+  }, [])
 
   useEffect(() => {
     if (!userData) navigate('/login', {replace: true});
@@ -123,9 +135,15 @@ const Workspace = () => {
           <AddButton onClick={onClickCreateWorkspace}>+</AddButton>
         </Workspaces>
         <Channels>
-          <WorkspaceName>Sleact</WorkspaceName>
+          <WorkspaceName onClick={toggleWorkspaceModal}>Sleact</WorkspaceName>
           <MenuScroll>
-            {/*<Menu>Menu</Menu>*/}
+            <Menu show={showWorkspaceModal} onCloseModal={toggleWorkspaceModal} style={{ top: 95, left: 80 }}>
+              <WorkspaceModal>
+                <h2>Sleact</h2>
+                <button onClick={onClickAddChannel}>채널만들기</button>
+                <button onClick={onLogout}>로그아웃</button>
+              </WorkspaceModal>
+            </Menu>
           </MenuScroll>
         </Channels>
         <Chats>
@@ -146,6 +164,9 @@ const Workspace = () => {
           <Button type="submit">생성하기</Button>
         </form>
       </Modal>
+      <CreateChannelModal
+        show={showCreateChannelModal}
+        onCloseModal={onCloseModal} />
     </div>
   );
 }
