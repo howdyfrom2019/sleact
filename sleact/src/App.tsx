@@ -11,11 +11,15 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={"/"} element={<Login/>}/>
+        <Route index element={<Login/>}/>
         <Route path={"/login"} element={<Login/>}/>
         <Route path={"/signup"} element={<SignUp/>}/>
-        <Route path={"/workspace"}>
-          <Route path={":params"} element={<Workspace/>} />
+        {/*<Route path={"/workspace"}>*/}
+        {/*  <Route path={":params"} element={<Workspace/>} />*/}
+        {/*</Route>*/}
+        <Route path={"/workspace"} element={<Workspace />}>
+            <Route path={":workspace/channel/:channel"} element={<Workspace/>} />
+            <Route path={":workspace/dm/:id"} element={<Workspace/>} />
         </Route>
       </Routes>
     </BrowserRouter>

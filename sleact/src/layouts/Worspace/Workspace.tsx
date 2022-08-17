@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import useSWR from "swr";
 import fetcher from "../../utils/fetcher";
 import axios from "axios";
-import {Link, useNavigate, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams, Routes, Route} from "react-router-dom";
 import gravatar from 'gravatar';
 import {
   RightMenu,
@@ -24,7 +24,7 @@ import {Button, Input, Label} from "../../pages/Login/styles";
 import Channel from "../../pages/Channel";
 import DirectMessage from "../../pages/DirectMessage";
 import Menu from "../../components/Menu";
-import {IUser} from "../../typings/db";
+import {IChannel, IUser} from "../../typings/db";
 import useInput from "../../hooks/useInput";
 import Modal from "../../components/Modal";
 import CreateChannelModal from "../../components/CreateChannelModal";
@@ -32,8 +32,8 @@ import {toast} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 const Workspace = () => {
-  const {params} = useParams();
   let navigate = useNavigate();
+  const { workspace } = useParams<{ workspace: string }>();
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [isLogOutSuccess, setIsLogOutSuccess] = useState(false);
   const [newWorkspace, onChangeNewWorkspace, setNewWorkspace] = useInput('');
@@ -42,7 +42,9 @@ const Workspace = () => {
   const [showWorkspaceModal, setShowWorkspaceModal] = useState(false);
   const [showCreateChannelModal, setShowCreateChannelModal] = useState(false);
 
-  const {data: userData, error, mutate} = useSWR<IUser>('http://localhost:3095/api/users', fetcher);
+  const { data: userData, error, mutate } = useSWR<IUser>('http://localhost:3095/api/users', fetcher);
+  const { data: channelData } = useSWR<IChannel[]>(userData ? `http://localhost:3095/api/workspaces/${workspace}/channels` : null, fetcher);
+
   const onLogout = useCallback(() => {
     axios.post('http://localhost:3095/api/users/logout', null, {withCredentials: true})
       .then((res) => {
@@ -55,6 +57,7 @@ const Workspace = () => {
     e.stopPropagation();
     setShowUserMenu(false);
   }, []);
+
   const onClickUserProfile = useCallback(() => {
     setShowUserMenu((prev) => !prev);
   }, []);
@@ -64,7 +67,7 @@ const Workspace = () => {
   }, []);
 
   const onCreateWorkspace = useCallback((e: React.FormEvent) => {
-    e.stopPropagation();
+    e.preventDefault();
     if (!newWorkspace || !newWorkspace.trim()) return;
     if (!newUrl || !newUrl.trim()) return;
     axios.post('http://localhost:3095/api/workspaces', {
@@ -129,7 +132,7 @@ const Workspace = () => {
         <Workspaces>
           {(userData?.Workspaces || []).map((ws) => {
             return (
-              <Link key={ws.id} to={`/workspace/${123}/channel/일반`}>
+              <Link key={ws.id} to={`/workspace/${ws.url}/channel/일반`}>
                 <WorkspaceButton>{ws.name.slice(0, 1).toUpperCase()}</WorkspaceButton>
               </Link>
             );
@@ -146,11 +149,16 @@ const Workspace = () => {
                 <button onClick={onLogout}>로그아웃</button>
               </WorkspaceModal>
             </Menu>
+            {channelData?.map((v) => (<div>{v.name}</div>))}
           </MenuScroll>
         </Channels>
         <Chats>
-          {params === "channel" && <Channel/>}
-          {params === "dm" && <DirectMessage/>}
+          <Routes>
+            <Route path={":workspace/channel/:channel"} element={<Channel />} />
+            <Route path={":workspace/dm/:id"} element={<DirectMessage />} />
+          </Routes>
+          {/*{params === "/:workspace/channel/:channel" && <Channel/>}*/}
+          {/*{params === "/:workspace/dm/:id" && <DirectMessage/>}*/}
         </Chats>
       </WorkspaceWrapper>
       <Modal show={showCreateWorkspaceModal} onCloseModal={onCloseModal}>
@@ -168,7 +176,8 @@ const Workspace = () => {
       </Modal>
       <CreateChannelModal
         show={showCreateChannelModal}
-        onCloseModal={onCloseModal} />
+        onCloseModal={onCloseModal}
+        setShowCreateChannelModal={setShowCreateChannelModal} />
     </div>
   );
 }

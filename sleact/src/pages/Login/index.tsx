@@ -26,7 +26,7 @@ const LogIn = () => {
   }, [email, password]);
 
   if (data) {
-    navigate("/workspace/channel");
+    navigate("/workspace/sleact/channel/일반");
   }
   return (
     <div id="container">
