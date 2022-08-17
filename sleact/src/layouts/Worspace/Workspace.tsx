@@ -63,7 +63,8 @@ const Workspace = () => {
     setShowCreateWorkspaceModal(true);
   }, []);
 
-  const onCreateWorkspace = useCallback(() => {
+  const onCreateWorkspace = useCallback((e: React.FormEvent) => {
+    e.stopPropagation();
     if (!newWorkspace || !newWorkspace.trim()) return;
     if (!newUrl || !newUrl.trim()) return;
     axios.post('http://localhost:3095/api/workspaces', {
@@ -73,6 +74,7 @@ const Workspace = () => {
       withCredentials: true,
     })
       .then((res) => {
+        console.log(res.data);
         mutate();
         setShowCreateWorkspaceModal(false);
         setNewWorkspace('');
@@ -81,7 +83,7 @@ const Workspace = () => {
       console.dir(e);
       toast.error(e.response?.data, {position: 'bottom-center'});
     })
-  }, []);
+  }, [newWorkspace, newUrl]);
 
   const onCloseModal = useCallback(() => {
     setShowCreateWorkspaceModal(false);
@@ -94,7 +96,7 @@ const Workspace = () => {
 
   const onClickAddChannel = useCallback(() => {
     setShowCreateChannelModal((prev) => !prev);
-  }, [])
+  }, []);
 
   useEffect(() => {
     if (!userData) navigate('/login', {replace: true});
