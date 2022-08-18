@@ -9,7 +9,7 @@ import {IUser} from "../../typings/db";
 
 const LogIn = () => {
   let navigate = useNavigate();
-  const { data, error, mutate } = useSWR<IUser>('http://localhost:3095/api/users', fetcher, {
+  const { data, error, mutate } = useSWR<IUser>('/api/users', fetcher, {
     dedupingInterval: 1000000,
   });
   const [logInError, setLogInError] = useState(false);
@@ -18,9 +18,9 @@ const LogIn = () => {
   const onSubmit = useCallback<(e: React.MouseEvent<HTMLButtonElement>) => void>((e) => {
     e.preventDefault();
     setLogInError(false);
-    axios.post("http://localhost:3095/api/users/login", {email, password}, {withCredentials: true})
+    axios.post("/api/users/login", {email, password}, {withCredentials: true})
       .then((res) => {
-        mutate(res.data, true);
+        mutate(res.data, false);
       })
       .catch((e) => setLogInError(e.response?.data?.statusCode === 401));
   }, [email, password]);
