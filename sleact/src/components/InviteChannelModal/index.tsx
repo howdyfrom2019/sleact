@@ -15,7 +15,7 @@ interface Props {
   setShowInviteChannelModal: (flag: boolean) => void;
 }
 const InviteChannelModal: React.FC<Props> = ({ show, onCloseModal, setShowInviteChannelModal }) => {
-  const { workspace, channel } = useParams<{ workspace: string, channel: string}>();
+  const { workspace, channel } = useParams<{ workspace: string, channel: string }>();
   const [newMember, onChangeNewMember, setNewMember] = useInput('');
   const { data: userData } = useSWR<IUser>('/api/users', fetcher);
   const { mutate: mutateMembers } = useSWR<IUser[]>(
@@ -31,10 +31,11 @@ const InviteChannelModal: React.FC<Props> = ({ show, onCloseModal, setShowInvite
         email: newMember,
       }, {
         withCredentials: true
-      }).then((res) => {
-      mutateMembers(res.data, false);
-      setShowInviteChannelModal(false);
-      setNewMember('');
+      })
+      .then((res) => {
+        mutateMembers(res.data, false);
+        setShowInviteChannelModal(false);
+        setNewMember('');
     }).catch((e) => {
       console.dir(e);
       toast(e.response?.data, {position: "bottom-center"});

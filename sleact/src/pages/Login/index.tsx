@@ -20,7 +20,7 @@ const LogIn = () => {
     setLogInError(false);
     axios.post("/api/users/login", {email, password}, {withCredentials: true})
       .then((res) => {
-        mutate(res.data, false);
+        mutate(res.data, true);
       })
       .catch((e) => setLogInError(e.response?.data?.statusCode === 401));
   }, [email, password]);

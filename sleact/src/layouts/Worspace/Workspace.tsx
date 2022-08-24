@@ -31,8 +31,9 @@ import CreateChannelModal from "../../components/CreateChannelModal";
 import {toast} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import InviteWorkspaceModal from "../../components/inviteWorkspaceModal";
-import InviteChannelModal from "../../components/InviteCahnnelModal";
+import InviteChannelModal from "../../components/InviteChannelModal";
 import DMList from "../../components/DMList";
+import ChannelList from "../../components/ChannelList";
 
 const Workspace = () => {
   let navigate = useNavigate();
@@ -163,8 +164,8 @@ const Workspace = () => {
                 <button onClick={onLogout}>로그아웃</button>
               </WorkspaceModal>
             </Menu>
+            <ChannelList />
             <DMList />
-            {/*{channelData?.map((v) => (<div>{v.name}</div>))}*/}
           </MenuScroll>
         </Channels>
         <Chats>

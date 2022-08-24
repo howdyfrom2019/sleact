@@ -1,16 +1,12 @@
-import React, {FC, useCallback, useState} from 'react';
+import React, { useCallback, useState} from 'react';
 import fetcher from "../../utils/fetcher";
 import {IChannel, IUser} from "../../typings/db";
 import useSWR from "swr";
 import {useParams} from "react-router-dom";
 import {CollapseButton} from "../DMList/styles";
+import EachChannel from "../EachChannel";
 
-interface Props {
-  channelData?: IChannel[];
-  userData?: IUser;
-}
-
-const ChannelList: React.FC<Props> = () => {
+const ChannelList = () => {
   const { workspace } = useParams<{ workspace?: string }>();
   const [channelCollapse, setChannelCollapse] = useState(false);
   const { data: userData } = useSWR<IUser>('/api/users', fetcher, {
@@ -37,8 +33,8 @@ const ChannelList: React.FC<Props> = () => {
       <div>
         {!channelCollapse &&
           channelData?.map((channel) => {
-            return <div>{channel.name}</div>;
-            {/*return <EachChannel key={channel.id} channel={channel} />;*/}
+            console.log(channel);
+            return <EachChannel key={channel.id} channel={channel} />;
           })}
       </div>
     </>
