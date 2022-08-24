@@ -15,6 +15,7 @@ export const Header = styled.header`
   --saf-0: rgba(var(--sk_foreground_low, 29, 28, 29), 0.13);
   box-shadow: 0 1px 0 var(--saf-0);
   padding: 0 16px;
+  box-sizing: border-box;
   font-weight: bold;
   align-items: center;
 `;
