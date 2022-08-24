@@ -55,7 +55,6 @@ const DMList = () => {
         {!channelCollapse &&
           memberData?.map((member) => {
             const isOnline = onlineList.includes(member.id);
-            console.log(memberData);
             return <EachDM key={member.id} member={member} isOnline={isOnline} />;
           })}
       </div>

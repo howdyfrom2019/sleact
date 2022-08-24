@@ -1,15 +1,12 @@
 import { IChannel, IUser } from '../../typings/db';
 import fetcher from '../../utils/fetcher';
-import React, { useEffect, VFC } from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
 import { NavLink, useLocation } from 'react-router-dom';
 import useSWR from 'swr';
 
-interface Props {
-  channel: IChannel;
-}
-const EachChannel: React.FC<Props> = ({ channel }) => {
-  const { workspace } = useParams<{ workspace?: string }>();
+const EachChannel: React.FC<{ channel: IChannel }> = ({ channel }) => {
+  const { workspace, channel: channelParams } = useParams<{ workspace?: string, channel?: string }>();
   const location = useLocation();
   const { data: userData } = useSWR<IUser>('/api/users', fetcher, {
     dedupingInterval: 2000, // 2초
@@ -29,7 +26,8 @@ const EachChannel: React.FC<Props> = ({ channel }) => {
   return (
     <NavLink
       key={channel.name}
-      className={(active) => active ? "selected" : ""}
+      // className={({isActive}) => isActive ? "selected" : ""}
+      className={ channel.name === channelParams ? "selected" : "" }
       to={`/workspace/${workspace}/channel/${channel.name}`}>
         <span className={count !== undefined && count > 0 ? 'bold' : undefined}># {channel.name}</span>
         {count !== undefined && count > 0 && <span className="count">{count}</span>}
