@@ -15,12 +15,24 @@ export const Form = styled.form`
   width: 100%;
   border-radius: 4px;
   border: 1px solid rgb(29, 28, 29);
+  z-index: 2;
 `;
 
-export const MentionsTextarea = styled.div`
+export const MentionsTextarea = styled.textarea`
   font-family: Slack-Lato, appleLogo, sans-serif;
   font-size: 15px;
-  padding: 8px 9px;
+  //padding: 8px 9px;
+  
+  z-index: 1;
+  width: 100%;
+  //height: 44px;
+  padding: 9px 10px !important;
+  box-sizing: border-box;
+  outline: none !important;
+  border-radius: 4px !important;
+  resize: none !important;
+  line-height: 22px;
+  border: none;
 
   & strong {
     background: skyblue;
