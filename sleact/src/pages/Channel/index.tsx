@@ -8,9 +8,9 @@ const Channel = () => {
   const [chat, onChangeChat, setChat] = useInput('');
   const onSubmitForm = useCallback((e: React.FormEvent) => {
     e.preventDefault();
-    console.log("submit!");
+    console.log(chat);
     setChat('');
-  }, []);
+  }, [chat]);
 
   return (
     <Container>

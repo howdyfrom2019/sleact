@@ -17,10 +17,11 @@ const ChatBox: React.FC<Props> = ({ chat, onSubmitForm, onChangeChat, placeholde
     if (e.key === "Enter") {
       if (!e.shiftKey) {
         e.preventDefault();
+        console.log(chat);
         onSubmitForm(e);
       }
     }
-  }, []);
+  }, [chat]);
 
   useEffect(() => {
     if (!textareaRef.current) return;
