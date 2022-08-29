@@ -34,6 +34,7 @@ import InviteWorkspaceModal from "../../components/inviteWorkspaceModal";
 import InviteChannelModal from "../../components/InviteChannelModal";
 import DMList from "../../components/DMList";
 import ChannelList from "../../components/ChannelList";
+import useSocket from "../../hooks/useSocket";
 
 const Workspace = () => {
   let navigate = useNavigate();
@@ -54,6 +55,8 @@ const Workspace = () => {
     userData ? `/api/workspaces/${workspace}/members` : null,
     fetcher,
   );
+  const [socket, disconnect] = useSocket(workspace);
+
   const onLogout = useCallback(() => {
     axios.post('/api/users/logout', null, {withCredentials: true})
       .then((res) => {
@@ -118,6 +121,18 @@ const Workspace = () => {
   useEffect(() => {
     if (!userData) navigate('/login', {replace: true});
   }, [userData, isLogOutSuccess]);
+
+  useEffect(() => {
+    if (channelData && userData && socket) {
+      socket.emit("login", { id: userData.id, channels: channelData.map((v) => v.id)} );
+    }
+  }, [socket, channelData, userData]);
+
+  useEffect(() => {
+    return () => {
+      disconnect();
+    }
+  }, [workspace, disconnect]);
 
   return (
     <div>
