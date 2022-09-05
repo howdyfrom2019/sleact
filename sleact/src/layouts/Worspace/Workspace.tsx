@@ -135,7 +135,7 @@ const Workspace = () => {
   }, [workspace, disconnect]);
 
   return (
-    <div>
+    <div style={{ overflow: "hidden", height: "100vh" }}>
       <Header>
         <RightMenu>
               <span onClick={onClickUserProfile}>

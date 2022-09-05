@@ -1,22 +1,25 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import { Container, Header, DragOver } from "./styles";
 import ChatList from "../../components/ChatList";
 import ChatBox from "../../components/ChatBox";
-import useInput from "../../hooks/useInput";
 
 const Channel = () => {
-  const [chat, onChangeChat, setChat] = useInput('');
+  const [chat, setChat] = useState('');
   const onSubmitForm = useCallback((e: React.FormEvent) => {
     e.preventDefault();
     console.log(chat);
     setChat('');
-  }, [chat]);
+  }, [chat, setChat]);
+
+  const onChangeChatFunc = useCallback((e: { target: { value: string; }; }) => {
+    setChat(e.target.value);
+  }, [setChat]);
 
   return (
     <Container>
       <Header># 채널</Header>
       <ChatList />
-      <ChatBox chat={chat} onSubmitForm={onSubmitForm} onChangeChat={onChangeChat} />
+      <ChatBox chat={chat} onSubmitForm={onSubmitForm} onChangeChat={onChangeChatFunc} />
     </Container>
   );
 }
